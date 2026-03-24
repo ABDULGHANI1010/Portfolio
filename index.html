@@ -6,57 +6,134 @@
 <title>Roblox Portfolio</title>
 
 <style>
+:root {
+  --bg: #0b0b0c;
+  --card: #121214;
+  --muted: #9ca3af;
+  --accent: #ffffff;
+}
+
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: #0f0f0f;
+  font-family: Inter, Arial, sans-serif;
+  background: var(--bg);
   color: white;
+}
+
+/* subtle dot texture */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-size: 18px 18px;
+  pointer-events: none;
 }
 
 header {
   text-align: center;
-  padding: 60px 20px;
+  padding: 80px 20px 40px;
 }
 
-h1 { font-size: 3rem; margin: 0; }
+h1 { font-size: 3rem; margin: 0; letter-spacing: -1px; }
 
-section { padding: 40px 20px; max-width: 1100px; margin: auto; }
+section { max-width: 1100px; margin: auto; padding: 40px 20px; }
 
-.project {
+.separator {
+  height: 1px;
+  background: linear-gradient(to right, transparent, #2a2a2a, transparent);
+  margin: 40px 0;
+}
+
+/* PROFILE */
+.profile {
   display: flex;
   align-items: center;
   gap: 30px;
-  margin-bottom: 60px;
+}
+
+.profile img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #2a2a2a;
+}
+
+.profile-info h2 {
+  margin: 0 0 5px;
+}
+
+.profile-info p {
+  color: var(--muted);
+}
+
+/* PROJECTS */
+.project {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  margin-bottom: 80px;
+  position: relative;
 }
 
 .project.reverse {
   flex-direction: row-reverse;
 }
 
+/* slash divider */
+.project::after {
+  content: "";
+  position: absolute;
+  width: 2px;
+  height: 120%;
+  background: linear-gradient(to bottom, transparent, #2a2a2a, transparent);
+  left: 50%;
+  transform: translateX(-50%) rotate(20deg);
+  opacity: 0.4;
+}
+
 .media {
   flex: 1;
 }
 
-.media video, .media img {
+.media video {
   width: 100%;
   border-radius: 15px;
+  background: black;
 }
 
 .content {
   flex: 1;
 }
 
+.content h3 {
+  margin-bottom: 10px;
+}
+
+.content p {
+  color: var(--muted);
+}
+
 pre {
-  background: black;
-  padding: 10px;
-  border-radius: 8px;
+  background: #050505;
+  padding: 12px;
+  border-radius: 10px;
   overflow-x: auto;
   font-size: 0.85rem;
+  border: 1px solid #1f1f1f;
 }
 
 @media (max-width: 768px) {
   .project, .project.reverse {
     flex-direction: column;
+  }
+
+  .project::after { display: none; }
+
+  .profile {
+    flex-direction: column;
+    text-align: center;
   }
 }
 </style>
@@ -66,8 +143,20 @@ pre {
 
 <header>
   <h1>My Roblox Portfolio</h1>
-  <p>Systems • Scripting • Building</p>
 </header>
+
+<section>
+  <!-- PROFILE -->
+  <div class="profile">
+    <img src="https://via.placeholder.com/150">
+    <div class="profile-info">
+      <h2>Your Name</h2>
+      <p>Roblox Developer • Systems • Physics • UI</p>
+    </div>
+  </div>
+</section>
+
+<div class="separator"></div>
 
 <section>
   <h2>Projects</h2>
@@ -104,7 +193,7 @@ projectData.forEach((p, i) => {
 
   project.innerHTML = `
     <div class="media">
-      <video src="${p.video}" autoplay muted loop controls></video>
+      <video src="${p.video}" autoplay muted loop></video>
     </div>
     <div class="content">
       <h3>${p.title}</h3>
