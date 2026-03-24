@@ -4,152 +4,476 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Roblox Portfolio</title>
-
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0b0b0c;
-  --card: #121214;
-  --muted: #9ca3af;
+  --bg: #060608;
+  --surface: #0d0d12;
+  --card: #111118;
+  --border: rgba(255,255,255,0.06);
+  --muted: #6b7280;
+  --accent1: #e05aff;
+  --accent2: #5af0ff;
+  --accent3: #ff6b35;
+  --text: #f0eeff;
 }
+
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
-  font-family: Inter, Arial, sans-serif;
+  font-family: 'Syne', sans-serif;
   background: var(--bg);
-  color: white;
+  color: var(--text);
+  overflow-x: hidden;
 }
 
-/* dot texture */
+/* ── LAYERED BACKGROUND ── */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
-  background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
-  background-size: 18px 18px;
+  background:
+    radial-gradient(ellipse 80% 60% at 10% 0%, rgba(224,90,255,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 90% 100%, rgba(90,240,255,0.09) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 50% 50%, rgba(255,107,53,0.04) 0%, transparent 70%);
   pointer-events: none;
+  z-index: 0;
 }
 
+/* noise grain overlay */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* dot grid */
+.dot-grid {
+  position: fixed;
+  inset: 0;
+  background-image: radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 22px 22px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── HEADER ── */
 header {
+  position: relative;
   text-align: center;
-  padding: 80px 20px 30px;
+  padding: 100px 20px 20px;
+  z-index: 1;
 }
 
-h1 { font-size: 3rem; margin: 0; }
+.header-label {
+  display: inline-block;
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--accent1);
+  background: rgba(224,90,255,0.08);
+  border: 1px solid rgba(224,90,255,0.2);
+  padding: 5px 14px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
 
-section { max-width: 1100px; margin: auto; padding: 40px 20px; }
+h1 {
+  font-size: clamp(2.8rem, 7vw, 5.5rem);
+  font-weight: 800;
+  margin: 0;
+  line-height: 1;
+  background: linear-gradient(135deg, #fff 0%, var(--accent1) 50%, var(--accent2) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.02em;
+}
 
+.header-sub {
+  color: var(--muted);
+  font-size: 1rem;
+  margin-top: 12px;
+  letter-spacing: 0.05em;
+}
+
+/* ── SECTIONS ── */
+section {
+  max-width: 1100px;
+  margin: auto;
+  padding: 40px 24px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── SEPARATOR ── */
 .separator {
   height: 1px;
-  background: linear-gradient(to right, transparent, #2a2a2a, transparent);
-  margin: 50px 0;
+  max-width: 1100px;
+  margin: 10px auto 0;
+  background: linear-gradient(to right, transparent, rgba(224,90,255,0.3), rgba(90,240,255,0.3), transparent);
+  position: relative;
+  z-index: 1;
 }
 
-/* PROFILE CENTERED */
+/* ── PROFILE ── */
 .profile {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 15px;
+  gap: 18px;
 }
 
+.avatar-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.avatar-wrap::before {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: conic-gradient(var(--accent1), var(--accent2), var(--accent3), var(--accent1));
+  animation: spin 4s linear infinite;
+  z-index: 0;
+}
+
+.avatar-wrap::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  background: var(--bg);
+  z-index: 1;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
 .profile img {
+  position: relative;
+  z-index: 2;
   width: 130px;
   height: 130px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #2a2a2a;
+  display: block;
 }
 
 .profile-info h2 {
-  margin: 0;
+  margin: 0 0 6px;
+  font-size: 1.6rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, #fff, rgba(255,255,255,0.7));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .profile-info p {
-  margin: 5px 0 0;
+  margin: 0;
   color: var(--muted);
+  font-size: 0.9rem;
+  letter-spacing: 0.06em;
 }
 
-/* PROJECTS */
-.project {
+.tags {
   display: flex;
-  align-items: flex-start; /* aligns content slightly below media top */
-  gap: 50px;
-  margin-bottom: 100px;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.tag {
+  font-size: 0.75rem;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.tag:nth-child(1) { background: rgba(224,90,255,0.12); color: var(--accent1); border: 1px solid rgba(224,90,255,0.25); }
+.tag:nth-child(2) { background: rgba(90,240,255,0.10); color: var(--accent2); border: 1px solid rgba(90,240,255,0.2); }
+.tag:nth-child(3) { background: rgba(255,107,53,0.10); color: var(--accent3); border: 1px solid rgba(255,107,53,0.2); }
+
+/* ── SECTION HEADING ── */
+.section-heading {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 50px;
+}
+
+.section-heading h2 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin: 0;
+  background: linear-gradient(90deg, #fff 60%, var(--accent1));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.heading-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, rgba(255,255,255,0.08), transparent);
+}
+
+.heading-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--accent1);
+  opacity: 0.6;
+}
+
+/* ── PROJECTS ── */
+.project {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  margin-bottom: 80px;
   position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--card);
+  border: 1px solid var(--border);
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.02), 0 40px 80px rgba(0,0,0,0.5);
+  transition: box-shadow 0.4s;
+}
+
+.project::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(224,90,255,0.04) 0%, transparent 50%, rgba(90,240,255,0.03) 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.project:hover {
+  box-shadow: 0 0 0 1px rgba(224,90,255,0.15), 0 60px 100px rgba(0,0,0,0.6), 0 0 60px rgba(224,90,255,0.06);
 }
 
 .project.reverse {
-  flex-direction: row-reverse;
+  direction: rtl;
+}
+.project.reverse > * {
+  direction: ltr;
 }
 
-/* slash divider */
+/* accent bar on hover */
 .project::after {
   content: "";
   position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  width: 2px;
-  background: linear-gradient(to bottom, transparent, #2a2a2a, transparent);
-  transform: translateX(-50%) rotate(20deg);
-  opacity: 0.5;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent1), var(--accent2));
+  opacity: 0;
+  transition: opacity 0.3s;
 }
+.project:hover::after { opacity: 1; }
 
 .media {
-  flex: 1;
+  position: relative;
+  min-height: 260px;
+  overflow: hidden;
+}
+
+.media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, transparent 60%, var(--card));
+  pointer-events: none;
+}
+
+.project.reverse .media::after {
+  background: linear-gradient(to left, transparent 60%, var(--card));
 }
 
 .media video {
   width: 100%;
-  border-radius: 15px;
-  background: black;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 0.85;
+  transition: opacity 0.3s, transform 0.5s;
+}
+
+.project:hover .media video {
+  opacity: 1;
+  transform: scale(1.03);
 }
 
 .content {
-  flex: 1;
-  padding-top: 20px; /* slight offset down */
+  padding: 36px 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+.project-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--accent1);
+  letter-spacing: 0.2em;
+  margin-bottom: 10px;
+  opacity: 0.7;
 }
 
 .content h3 {
-  margin-bottom: 10px;
+  margin: 0 0 12px;
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1.2;
+  background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.75) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .content p {
   color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.7;
+  margin: 0 0 20px;
+  font-family: 'DM Mono', monospace;
+  font-weight: 400;
 }
 
 pre {
-  background: #050505;
-  padding: 12px;
-  border-radius: 10px;
+  background: rgba(0,0,0,0.4);
+  padding: 16px;
+  border-radius: 12px;
   overflow-x: auto;
-  font-size: 0.85rem;
-  border: 1px solid #1f1f1f;
+  font-size: 0.78rem;
+  border: 1px solid rgba(255,255,255,0.06);
+  margin: 0;
+  position: relative;
+  backdrop-filter: blur(10px);
+}
+
+pre::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(224,90,255,0.04), transparent);
+  pointer-events: none;
+}
+
+code {
+  font-family: 'DM Mono', monospace;
+  color: #c9d1d9;
+  line-height: 1.6;
+}
+
+/* syntax highlights */
+code .kw  { color: var(--accent1); }
+code .fn  { color: var(--accent2); }
+code .str { color: var(--accent3); }
+code .num { color: #79c0ff; }
+
+/* code window dots */
+.code-wrap {
+  position: relative;
+}
+.code-dots {
+  display: flex;
+  gap: 6px;
+  padding: 10px 14px 0;
+  background: rgba(0,0,0,0.3);
+  border-radius: 12px 12px 0 0;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-bottom: none;
+}
+.code-dots span {
+  width: 10px; height: 10px; border-radius: 50%;
+}
+.code-dots span:nth-child(1) { background: #ff5f56; }
+.code-dots span:nth-child(2) { background: #ffbd2e; }
+.code-dots span:nth-child(3) { background: #27c93f; }
+.code-wrap pre {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-top: none;
+}
+
+/* ── FOOTER ── */
+footer {
+  text-align: center;
+  padding: 60px 20px;
+  position: relative;
+  z-index: 1;
+  color: var(--muted);
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  border-top: 1px solid var(--border);
+}
+
+footer span {
+  background: linear-gradient(90deg, var(--accent1), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+}
+
+/* ── SCROLL FADE IN ── */
+.fade-in {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: none;
 }
 
 @media (max-width: 768px) {
   .project, .project.reverse {
-    flex-direction: column;
+    grid-template-columns: 1fr;
+    direction: ltr;
   }
-
-  .project::after { display: none; }
+  .media { min-height: 200px; }
+  .media::after { background: linear-gradient(to top, var(--card) 0%, transparent 60%) !important; }
+  .content { padding: 24px 20px; }
 }
 </style>
 </head>
-
 <body>
+<div class="dot-grid"></div>
 
 <header>
-  <h1>My Roblox Portfolio</h1>
+  <div class="header-label">Roblox Developer</div>
+  <h1>My Portfolio</h1>
+  <p class="header-sub">Programming · Modelling · UI Design</p>
 </header>
 
 <section>
-  <div class="profile">
-    <img src="https://tr.rbxcdn.com/30DAY-AvatarHeadshot-11697BC1179169B8BC1C5630C029A08D-Png/150/150/AvatarHeadshot/Webp/noFilter">
+  <div class="profile fade-in">
+    <div class="avatar-wrap">
+      <img src="https://tr.rbxcdn.com/30DAY-AvatarHeadshot-11697BC1179169B8BC1C5630C029A08D-Png/150/150/AvatarHeadshot/Webp/noFilter" alt="ABDULGHANI1010">
+    </div>
     <div class="profile-info">
       <h2>ABDULGHANI1010</h2>
-      <p>Roblox Developer • Programming • Modelling • UI</p>
+      <p>Roblox Developer</p>
+    </div>
+    <div class="tags">
+      <div class="tag">Programming</div>
+      <div class="tag">Modelling</div>
+      <div class="tag">UI Design</div>
     </div>
   </div>
 </section>
@@ -157,23 +481,31 @@ pre {
 <div class="separator"></div>
 
 <section>
-  <h2>Projects</h2>
+  <div class="section-heading fade-in">
+    <span class="heading-num">01</span>
+    <h2>Projects</h2>
+    <div class="heading-line"></div>
+  </div>
   <div id="projects"></div>
 </section>
+
+<footer>
+  Built by <span>ABDULGHANI1010</span> &nbsp;·&nbsp; Roblox Portfolio
+</footer>
 
 <script>
 const projectData = [
   {
-    title: "Vehicle System",
-    desc: "Physics-based chassis with suspension and torque.",
+    title: "R15 Gore Models",
+    desc: "Realistic gore models for individual body parts made using Blender and Substance Painter.",
     video: "https://www.w3schools.com/html/mov_bbb.mp4",
-    code: `local torque = power * throttle\napplyForce(torque)`
+    code: `<span class="kw">local</span> torque = power * throttle\n<span class="fn">applyForce</span>(torque)`
   },
   {
     title: "Chess System",
-    desc: "Full movement logic and checkmate detection.",
+    desc: "Full movement logic, piece validation, and checkmate detection built entirely in Luau.",
     video: "https://www.w3schools.com/html/mov_bbb.mp4",
-    code: `if isCheckmate(board) then\n  endGame()\nend`
+    code: `<span class="kw">if</span> <span class="fn">isCheckmate</span>(board) <span class="kw">then</span>\n  <span class="fn">endGame</span>()\n<span class="kw">end</span>`
   }
 ];
 
@@ -181,22 +513,38 @@ const container = document.getElementById("projects");
 
 projectData.forEach((p, i) => {
   const project = document.createElement("div");
-  project.className = "project" + (i % 2 === 1 ? " reverse" : "");
+  project.className = "project fade-in" + (i % 2 === 1 ? " reverse" : "");
 
   project.innerHTML = `
     <div class="media">
-      <video src="${p.video}" autoplay muted loop></video>
+      <video src="${p.video}" autoplay muted loop playsinline></video>
     </div>
     <div class="content">
+      <div class="project-num">PROJECT — 0${i + 1}</div>
       <h3>${p.title}</h3>
       <p>${p.desc}</p>
-      <pre><code>${p.code}</code></pre>
+      <div class="code-wrap">
+        <div class="code-dots">
+          <span></span><span></span><span></span>
+        </div>
+        <pre><code>${p.code}</code></pre>
+      </div>
     </div>
   `;
-
   container.appendChild(project);
 });
-</script>
 
+// scroll fade in
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((e, idx) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add("visible"), idx * 80);
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll(".fade-in").forEach(el => observer.observe(el));
+</script>
 </body>
 </html>
