@@ -295,20 +295,21 @@ section {
   overflow: hidden;
 }
 
+/* ── UPDATED GRADIENT FADE ── */
 .media::after {
   content: "";
   position: absolute;
-  inset: -10% -20%;
-  background: linear-gradient(to right, transparent 30%, var(--card) 65%);
-  transform: skewX(-12deg);
-  transform-origin: bottom right;
+  inset: 0;
+  /* Fades from transparent to the card color exactly in the center */
+  background: linear-gradient(to right, transparent 0%, var(--card) 95%);
   pointer-events: none;
+  z-index: 1;
 }
 
+/* For alternate projects, reverse the gradient direction */
 .project.reverse .media::after {
-  background: linear-gradient(to left, transparent 30%, var(--card) 65%);
-  transform: skewX(12deg);
-  transform-origin: bottom left;
+  background: linear-gradient(to left, transparent 0%, var(--card) 95%);
+  transform: none; /* Removes the tilt */
 }
 
 .media video {
