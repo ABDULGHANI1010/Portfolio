@@ -20,34 +20,30 @@ header {
 
 h1 { font-size: 3rem; margin: 0; }
 
-section { padding: 40px 20px; max-width: 1000px; margin: auto; }
+section { padding: 40px 20px; max-width: 1100px; margin: auto; }
 
-.projects {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
+.project {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  margin-bottom: 60px;
 }
 
-.card {
-  background: #1a1a1a;
-  border-radius: 15px;
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+.project.reverse {
+  flex-direction: row-reverse;
 }
 
-.card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+.media {
+  flex: 1;
 }
 
-.card img {
+.media video, .media img {
   width: 100%;
-  height: 180px;
-  object-fit: cover;
+  border-radius: 15px;
 }
 
-.card-content {
-  padding: 15px;
+.content {
+  flex: 1;
 }
 
 pre {
@@ -58,17 +54,10 @@ pre {
   font-size: 0.85rem;
 }
 
-.contact {
-  text-align: center;
-}
-
-button {
-  background: white;
-  color: black;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 20px;
-  cursor: pointer;
+@media (max-width: 768px) {
+  .project, .project.reverse {
+    flex-direction: column;
+  }
 }
 </style>
 </head>
@@ -81,19 +70,8 @@ button {
 </header>
 
 <section>
-  <h2>About Me</h2>
-  <p>I build advanced Roblox systems including physics, UI, and gameplay logic.</p>
-</section>
-
-<section>
   <h2>Projects</h2>
-
-  <div class="projects" id="projects"></div>
-</section>
-
-<section class="contact">
-  <h2>Contact</h2>
-  <button>Discord: yourname</button>
+  <div id="projects"></div>
 </section>
 
 <script>
@@ -104,36 +82,38 @@ const projectData = [
   {
     title: "Vehicle System",
     desc: "Physics-based chassis with suspension and torque.",
-    img: "https://via.placeholder.com/400x200",
+    video: "https://www.w3schools.com/html/mov_bbb.mp4",
     code: `local torque = power * throttle\napplyForce(torque)`
   },
   {
     title: "Chess System",
     desc: "Full movement logic and checkmate detection.",
-    img: "https://via.placeholder.com/400x200",
+    video: "https://www.w3schools.com/html/mov_bbb.mp4",
     code: `if isCheckmate(board) then\n  endGame()\nend`
   }
 ];
 
 // =============================
-// AUTO RENDER (no touch needed)
+// AUTO RENDER
 // =============================
 const container = document.getElementById("projects");
 
-projectData.forEach(p => {
-  const card = document.createElement("div");
-  card.className = "card";
+projectData.forEach((p, i) => {
+  const project = document.createElement("div");
+  project.className = "project" + (i % 2 === 1 ? " reverse" : "");
 
-  card.innerHTML = `
-    <img src="${p.img}">
-    <div class="card-content">
+  project.innerHTML = `
+    <div class="media">
+      <video src="${p.video}" autoplay muted loop controls></video>
+    </div>
+    <div class="content">
       <h3>${p.title}</h3>
       <p>${p.desc}</p>
       <pre><code>${p.code}</code></pre>
     </div>
   `;
 
-  container.appendChild(card);
+  container.appendChild(project);
 });
 </script>
 
