@@ -16,7 +16,6 @@ body {
 header {
   text-align: center;
   padding: 60px 20px;
-  animation: fadeDown 1s ease;
 }
 
 h1 { font-size: 3rem; margin: 0; }
@@ -71,22 +70,6 @@ button {
   border-radius: 20px;
   cursor: pointer;
 }
-
-@keyframes fadeDown {
-  from { opacity: 0; transform: translateY(-20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.fade-in {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.6s ease;
-}
-
-.fade-in.show {
-  opacity: 1;
-  transform: translateY(0);
-}
 </style>
 </head>
 
@@ -97,57 +80,61 @@ button {
   <p>Systems • Scripting • Building</p>
 </header>
 
-<section class="fade-in">
+<section>
   <h2>About Me</h2>
   <p>I build advanced Roblox systems including physics, UI, and gameplay logic.</p>
 </section>
 
-<section class="fade-in">
+<section>
   <h2>Projects</h2>
 
-  <div class="projects">
-
-    <div class="card">
-      <img src="https://via.placeholder.com/400x200">
-      <div class="card-content">
-        <h3>Vehicle System</h3>
-        <p>Physics-based chassis with suspension and torque.</p>
-        <pre><code>local torque = power * throttle
-applyForce(torque)</code></pre>
-      </div>
-    </div>
-
-    <div class="card">
-      <img src="https://via.placeholder.com/400x200">
-      <div class="card-content">
-        <h3>Chess System</h3>
-        <p>Full movement logic and checkmate detection.</p>
-        <pre><code>if isCheckmate(board) then
-  endGame()
-end</code></pre>
-      </div>
-    </div>
-
-  </div>
+  <div class="projects" id="projects"></div>
 </section>
 
-<section class="contact fade-in">
+<section class="contact">
   <h2>Contact</h2>
   <button>Discord: yourname</button>
 </section>
 
 <script>
-const elements = document.querySelectorAll('.fade-in');
+// =============================
+// 🔥 EDIT YOUR PROJECTS HERE
+// =============================
+const projectData = [
+  {
+    title: "Vehicle System",
+    desc: "Physics-based chassis with suspension and torque.",
+    img: "https://via.placeholder.com/400x200",
+    code: `local torque = power * throttle\napplyForce(torque)`
+  },
+  {
+    title: "Chess System",
+    desc: "Full movement logic and checkmate detection.",
+    img: "https://via.placeholder.com/400x200",
+    code: `if isCheckmate(board) then\n  endGame()\nend`
+  }
+];
 
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('show');
-    }
-  });
+// =============================
+// AUTO RENDER (no touch needed)
+// =============================
+const container = document.getElementById("projects");
+
+projectData.forEach(p => {
+  const card = document.createElement("div");
+  card.className = "card";
+
+  card.innerHTML = `
+    <img src="${p.img}">
+    <div class="card-content">
+      <h3>${p.title}</h3>
+      <p>${p.desc}</p>
+      <pre><code>${p.code}</code></pre>
+    </div>
+  `;
+
+  container.appendChild(card);
 });
-
-elements.forEach(el => observer.observe(el));
 </script>
 
 </body>
