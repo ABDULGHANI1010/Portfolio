@@ -1,27 +1,154 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My Roblox Portfolio</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roblox Portfolio</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0f0f0f;
+  color: white;
+}
+
+header {
+  text-align: center;
+  padding: 60px 20px;
+  animation: fadeDown 1s ease;
+}
+
+h1 { font-size: 3rem; margin: 0; }
+
+section { padding: 40px 20px; max-width: 1000px; margin: auto; }
+
+.projects {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: #1a1a1a;
+  border-radius: 15px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.card-content {
+  padding: 15px;
+}
+
+pre {
+  background: black;
+  padding: 10px;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-size: 0.85rem;
+}
+
+.contact {
+  text-align: center;
+}
+
+button {
+  background: white;
+  color: black;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+}
+
+.fade-in.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+</style>
 </head>
+
 <body>
 
-<h1>My Roblox Portfolio</h1>
+<header>
+  <h1>My Roblox Portfolio</h1>
+  <p>Systems • Scripting • Building</p>
+</header>
 
-<section>
-    <h2>About Me</h2>
-    <p>I build Roblox systems and games.</p>
+<section class="fade-in">
+  <h2>About Me</h2>
+  <p>I build advanced Roblox systems including physics, UI, and gameplay logic.</p>
 </section>
 
-<section>
-    <h2>Projects</h2>
+<section class="fade-in">
+  <h2>Projects</h2>
 
-    <div class="project">
+  <div class="projects">
+
+    <div class="card">
+      <img src="https://via.placeholder.com/400x200">
+      <div class="card-content">
         <h3>Vehicle System</h3>
-        <p>Custom physics-based chassis with suspension.</p>
+        <p>Physics-based chassis with suspension and torque.</p>
+        <pre><code>local torque = power * throttle
+applyForce(torque)</code></pre>
+      </div>
     </div>
 
+    <div class="card">
+      <img src="https://via.placeholder.com/400x200">
+      <div class="card-content">
+        <h3>Chess System</h3>
+        <p>Full movement logic and checkmate detection.</p>
+        <pre><code>if isCheckmate(board) then
+  endGame()
+end</code></pre>
+      </div>
+    </div>
+
+  </div>
 </section>
+
+<section class="contact fade-in">
+  <h2>Contact</h2>
+  <button>Discord: yourname</button>
+</section>
+
+<script>
+const elements = document.querySelectorAll('.fade-in');
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('show');
+    }
+  });
+});
+
+elements.forEach(el => observer.observe(el));
+</script>
 
 </body>
 </html>
