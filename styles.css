@@ -287,6 +287,7 @@ section { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
 /* Expanded state - show media and details */
 .project.expanded {
   grid-template-columns: 1.15fr 0.85fr;
+  grid-template-rows: auto auto;
 }
 
 .project.expanded .media {
@@ -295,6 +296,8 @@ section { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
   background: #000;
   z-index: 1;
   clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%);
+  grid-column: 1;
+  grid-row: 1;
 }
 
 .project.expanded.reverse {
@@ -303,6 +306,7 @@ section { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
 
 .project.expanded.reverse .media {
   grid-column: 2;
+  grid-row: 1;
   clip-path: polygon(15% 0, 100% 0, 100% 100%, 0 100%);
 }
 
@@ -315,6 +319,8 @@ section { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
 
 .project.expanded .content {
   padding: 60px 50px;
+  grid-column: 2;
+  grid-row: 1;
 }
 
 .project.expanded.reverse .content {
@@ -325,6 +331,66 @@ section { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
 .project.expanded .code-window {
   max-height: 500px;
   opacity: 1;
+}
+
+/* Code window full-width when taller than media - side by side with code below */
+.project.expanded.code-full-width {
+  grid-template-columns: 1.15fr 0.85fr;
+  grid-template-rows: auto auto !important;
+  grid-row-gap: 24px;
+}
+
+.project.expanded.code-full-width .media {
+  grid-column: 1;
+  grid-row: 1;
+  clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%);
+  height: auto;
+  min-height: 200px;
+}
+
+.project.expanded.code-full-width .content {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.project.expanded.code-full-width .code-window {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  margin: 0 32px 32px 32px;
+}
+
+.project.expanded.code-full-width .code-window .window-header {
+  border-radius: 12px 12px 0 0;
+}
+
+.project.expanded.code-full-width .code-window pre {
+  border-radius: 0 0 12px 12px;
+}
+
+/* Reverse variant with full-width code */
+.project.expanded.reverse.code-full-width {
+  grid-template-columns: 0.85fr 1.15fr;
+  grid-template-rows: auto auto !important;
+  grid-row-gap: 24px;
+}
+
+.project.expanded.reverse.code-full-width .media {
+  grid-column: 2;
+  grid-row: 1;
+  clip-path: polygon(15% 0, 100% 0, 100% 100%, 0 100%);
+  height: auto;
+  min-height: 200px;
+}
+
+.project.expanded.reverse.code-full-width .content {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.project.expanded.reverse.code-full-width .code-window {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  margin: 0 32px 32px 32px;
 }
 
 .project-header {
@@ -384,6 +450,23 @@ code { font-family: 'Fira Code', monospace; color: #fff; }
   margin-bottom: 40px;
   color: var(--text);
   letter-spacing: 4px;
+}
+
+/* Projects Title */
+.projects-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 3rem;
+  text-align: center;
+  margin: 0 auto 40px;
+  padding: 0 20px;
+  color: var(--text);
+  letter-spacing: 4px;
+  max-width: 1100px;
+}
+
+section#projects .projects-title {
+  position: relative;
+  z-index: 10;
 }
 
 .faq-container {
@@ -459,8 +542,17 @@ code { font-family: 'Fira Code', monospace; color: #fff; }
 .fade-in.visible { opacity: 1; transform: none; }
 
 @media (max-width: 900px) {
-  .project.expanded, .project.expanded.reverse { grid-template-columns: 1fr; }
-  .project.expanded .media { clip-path: none !important; height: 250px; }
-  .project.expanded.reverse .media { grid-column: 1; }
-  .project.expanded.reverse .content { grid-row: auto; }
+  .project.expanded, .project.expanded.reverse { grid-template-columns: 1fr; grid-template-rows: auto; }
+  .project.expanded .media { clip-path: polygon(0 0, 100% 0, 92% 100%, 0 100%) !important; height: 200px; grid-column: 1; grid-row: 1; }
+  .project.expanded.reverse .media { clip-path: polygon(8% 0, 100% 0, 100% 100%, 0 100%) !important; grid-column: 1; grid-row: 1; }
+  .project.expanded.reverse .content { grid-column: 1; grid-row: 1; }
+  .project.expanded .content { grid-column: 1; grid-row: 1; }
+  .project.expanded .code-window { grid-row: 2; }
+  .project.expanded.code-full-width { grid-template-columns: 1fr; }
+  .project.expanded.code-full-width .media { clip-path: polygon(0 0, 100% 0, 92% 100%, 0 100%) !important; height: 200px; grid-column: 1; grid-row: 1; }
+  .project.expanded.code-full-width .content { grid-column: 1; grid-row: 1; }
+  .project.expanded.code-full-width .code-window { grid-row: 3; margin: 0 16px 16px 16px; }
+  .project.expanded.reverse.code-full-width .media { clip-path: polygon(8% 0, 100% 0, 100% 100%, 0 100%) !important; grid-column: 1; grid-row: 1; }
+  .project.expanded.reverse.code-full-width .content { grid-column: 1; grid-row: 1; }
+  .project.expanded.reverse.code-full-width .code-window { grid-row: 3; }
 }

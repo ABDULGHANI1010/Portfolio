@@ -59,6 +59,13 @@ function highlightLuau(code) {
 }
 
 const container = document.getElementById("projects");
+
+// Add Projects title
+const projectsTitle = document.createElement("h2");
+projectsTitle.className = "projects-title fade-in";
+projectsTitle.textContent = "Featured Projects";
+container.appendChild(projectsTitle);
+
 projectData.forEach((p, i) => {
   const isRev = i % 2 === 1;
   const project = document.createElement("div");
@@ -87,6 +94,8 @@ projectData.forEach((p, i) => {
   // Add click handler for expand/collapse (click anywhere on the card)
   project.addEventListener('click', () => {
     project.classList.toggle('expanded');
+    // Check if code should be full-width after expanding
+    requestAnimationFrame(() => checkCodeLayout(project));
   });
 });
 
@@ -122,5 +131,39 @@ faqData.forEach((faq, index) => {
     if (!isOpen) {
       faqItem.classList.add("open");
     }
+  });
+});
+
+// Function to check if codeblock should be full-width
+function checkCodeLayout(project) {
+  const codeWindow = project.querySelector('.code-window');
+  const media = project.querySelector('.media');
+  const content = project.querySelector('.content');
+  
+  if (!codeWindow || !media || !project.classList.contains('expanded')) return;
+  
+  const mediaWidth = media.offsetWidth;
+  const codeWidth = codeWindow.scrollWidth;
+  
+  // If code is wider than media (1.2x threshold), make it full-width
+  if (codeWidth > mediaWidth * 1.1) {
+    project.classList.add('code-full-width');
+    // Move code-window out of content to project level
+    if (codeWindow.parentElement === content) {
+      content.after(codeWindow);
+    }
+  } else {
+    project.classList.remove('code-full-width');
+    // Move code-window back inside content
+    if (codeWindow.parentElement !== content) {
+      content.appendChild(codeWindow);
+    }
+  }
+}
+
+// Check code layout on window resize
+window.addEventListener('resize', () => {
+  document.querySelectorAll('.project.expanded').forEach(project => {
+    checkCodeLayout(project);
   });
 });

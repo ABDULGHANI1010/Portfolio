@@ -18,7 +18,14 @@ gore:replaceBodyPart(char, "Head", "HeadExplosionMesh")`
     desc: "I built the maps for Telegames which is meant to be a stage performance game.", 
     video: "videos/telegames.mp4",
     code: null 
-  }
+  },
+  { 
+    title: "Universal UI", 
+    desc: "Due to the strange nature of requests, I was hired to work on a universal UI script.", 
+    video: "videos/universalui.mp4",
+    code: `loadstring(game:HttpGet("https://raw.githubusercontent.com/ABDULGHANI1010/UNIVERSALUI/refs/heads/main/Main.lua"))()`
+  },
+
 ];
 
 const faqData = [
