@@ -1,17 +1,62 @@
-const projectData = [
-  { 
-    title: "Anatomical Gore v2", 
-    desc: "A modular R15 system utilizing custom skinned meshes and procedural blood displacement.", 
-    video: "https://www.w3schools.com/html/mov_bbb.mp4",
-    code: `<span class="cm">-- Server Side Damage</span>\n<span class="kw">local</span> injury <span class="op">=</span> <span class="fn">GoreHandler.new</span>(hit)\ninjury:<span class="fn">ApplyDamage</span>(<span class="str">"Piercing"</span>)`
-  },
-  { 
-    title: "Chess Engine Core", 
-    desc: "Optimized state management with FEN notation and multiplayer sync protocols.", 
-    video: "https://www.w3schools.com/html/mov_bbb.mp4",
-    code: null 
+// Luau/Roblox Syntax Highlighter
+function highlightLuau(code) {
+  // Escape HTML first
+  let result = code
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+  
+  // Tokenize to avoid nested replacements
+  const tokens = [];
+  let current = 0;
+  
+  const patterns = [
+    { regex: /--[^\n]*/g, type: 'cm' },
+    { regex: /"(?:[^"\\]|\\.)*"/g, type: 'str' },
+    { regex: /'(?:[^'\\]|\\.)*'/g, type: 'str' },
+    { regex: /\b(local|function|end|if|then|else|elseif|for|while|do|return|break|repeat|until|and|or|not|in|true|false|nil)\b/g, type: 'kw' },
+    { regex: /\b(print|require|wait|spawn|delay|tick|pcall|ypcall|error|warn|setmetatable|getmetatable|next|pairs|ipairs|type|typeof)\b/gi, type: 'fn' },
+    { regex: /\b\d+\.?\d*\b/g, type: 'num' },
+    { regex: /[+\-*/%=<>~:]/g, type: 'op' },
+    { regex: /\b[a-zA-Z_][a-zA-Z0-9_]*(?=\s*\()/g, type: 'fn' }
+  ];
+  
+  // Find all matches with their positions
+  const allMatches = [];
+  patterns.forEach(({ regex, type }) => {
+    let match;
+    const r = new RegExp(regex.source, regex.flags);
+    while ((match = r.exec(result)) !== null) {
+      allMatches.push({ start: match.index, end: match.index + match[0].length, text: match[0], type });
+    }
+  });
+  
+  // Sort by position and remove overlapping matches
+  allMatches.sort((a, b) => a.start - b.start);
+  const filteredMatches = [];
+  let lastEnd = 0;
+  for (const m of allMatches) {
+    if (m.start >= lastEnd) {
+      filteredMatches.push(m);
+      lastEnd = m.end;
+    }
   }
-];
+  
+  // Build highlighted string
+  let highlighted = '';
+  let pos = 0;
+  for (const m of filteredMatches) {
+    // Add plain text before match
+    highlighted += result.slice(pos, m.start);
+    // Add highlighted match
+    highlighted += `<span class="${m.type}">${m.text}</span>`;
+    pos = m.end;
+  }
+  // Add remaining plain text
+  highlighted += result.slice(pos);
+  
+  return highlighted;
+}
 
 const container = document.getElementById("projects");
 projectData.forEach((p, i) => {
@@ -24,7 +69,7 @@ projectData.forEach((p, i) => {
       <div class="window-header">
         <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
       </div>
-      <pre><code>${p.code}</code></pre>
+      <pre><code>${highlightLuau(p.code)}</code></pre>
     </div>` : '';
 
   project.innerHTML = `
@@ -47,3 +92,35 @@ projectData.forEach((p, i) => {
 
 const obs = new IntersectionObserver((es) => es.forEach(e => { if(e.isIntersecting) e.target.classList.add("visible"); }), {threshold:0.1});
 document.querySelectorAll(".fade-in").forEach(el => obs.observe(el));
+
+// FAQ Section
+const faqContainer = document.querySelector(".faq-container");
+faqData.forEach((faq, index) => {
+  const faqItem = document.createElement("div");
+  faqItem.className = "faq-item";
+  faqItem.innerHTML = `
+    <button class="faq-question">
+      <span>${faq.question}</span>
+      <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </button>
+    <div class="faq-answer">
+      <p>${faq.answer}</p>
+    </div>
+  `;
+  faqContainer.appendChild(faqItem);
+  
+  const questionBtn = faqItem.querySelector(".faq-question");
+  questionBtn.addEventListener("click", () => {
+    const isOpen = faqItem.classList.contains("open");
+    // Close all other FAQ items
+    document.querySelectorAll(".faq-item").forEach(item => {
+      item.classList.remove("open");
+    });
+    // Toggle current item
+    if (!isOpen) {
+      faqItem.classList.add("open");
+    }
+  });
+});
