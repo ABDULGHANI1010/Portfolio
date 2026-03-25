@@ -79,6 +79,8 @@ projectData.forEach((p, i) => {
       <pre><code>${highlightLuau(p.code)}</code></pre>
     </div>` : '';
 
+  const linkHtml = p.link ? `<a href="${p.link}" class="project-link" target="_blank" rel="noopener noreferrer">Test here</a>` : '';
+
   project.innerHTML = `
     <div class="media"><video src="${p.video}" autoplay muted loop playsinline></video></div>
     <div class="content">
@@ -86,6 +88,7 @@ projectData.forEach((p, i) => {
           <h3>${p.title}</h3>
         </div>
         <p>${p.desc}</p>
+        ${linkHtml}
         ${codeHtml}
     </div>
   `;

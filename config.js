@@ -3,6 +3,7 @@ const projectData = [
     title: "Anatomical Gore v2", 
     desc: "A modular R15 system utilizing custom skinned meshes and procedural blood displacement. Supports accessories, gore stacking, limb displacement, and drag mechanics.", 
     video: "videos/anatomicgore.mp4",
+    link: null,
     code: `-- Server Side Gore
 local gore = require(ServerStorage.GoreModule)
 gore:replaceBodyPart(char, "Head", "HeadExplosionMesh")`
@@ -11,21 +12,30 @@ gore:replaceBodyPart(char, "Head", "HeadExplosionMesh")`
     title: "Rock Formations", 
     desc: "A rock arch and stacked boulder assets with smooth normal-mapped surfaces, arranged on a flat desert terrain with realistic PBR texturing.", 
     video: "videos/rockformation.mp4",
+    link: null,
     code: null 
+  },
+  { 
+    title: "Impossible DCO", 
+    desc: "I made this difficulty chart obby back in 2023, features many moving parts, satisfying FX, a practice area, a shop, a music player, a report system using Webhooks and more.", 
+    video: "videos/impossibleDCO.mp4",
+    link: "https://www.roblox.com/games/13198868961/Impossible-DCO",
+    code: null
   },
   { 
     title: "Telegames v2", 
     desc: "I built the maps for Telegames which is meant to be a stage performance game.", 
     video: "videos/telegames.mp4",
+    link: null,
     code: null 
   },
   { 
     title: "Universal UI", 
     desc: "Due to the strange nature of requests, I was hired to work on a universal UI script.", 
     video: "videos/universalui.mp4",
+    link: null,
     code: `loadstring(game:HttpGet("https://raw.githubusercontent.com/ABDULGHANI1010/UNIVERSALUI/refs/heads/main/Main.lua"))()`
   },
-
 ];
 
 const faqData = [

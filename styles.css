@@ -367,6 +367,19 @@ section { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
   border-radius: 0 0 12px 12px;
 }
 
+/* Project link styling */
+.project-link {
+  display: inline-block;
+  margin-top: 8px;
+  color: #3b82f6;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.project-link:hover {
+  text-decoration: underline;
+}
+
 /* Reverse variant with full-width code */
 .project.expanded.reverse.code-full-width {
   grid-template-columns: 0.85fr 1.15fr;
@@ -556,3 +569,4 @@ section#projects .projects-title {
   .project.expanded.reverse.code-full-width .content { grid-column: 1; grid-row: 1; }
   .project.expanded.reverse.code-full-width .code-window { grid-row: 3; }
 }
+
